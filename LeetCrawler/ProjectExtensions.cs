@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LeetCrawler.Core
+namespace LeetCrawler
 {
     internal static class ProjectExtensions
     {

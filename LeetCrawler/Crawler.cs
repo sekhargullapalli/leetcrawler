@@ -98,8 +98,13 @@ namespace LeetCrawler
 
                 foreach(string link in links)
                 {
-                    if (link.StartsWith("tretton37img.blob.core.windows.net")) continue;
-                    if(Path.GetExtension(link).Trim() != string.Empty)
+                    if (link.StartsWith("tretton37img.blob.core.windows.net"))
+                    {
+                        string savePath = link.Replace("tretton37img.blob.core.windows.net",string.Empty)+".png";                        
+                        if (Resources.TryAdd(CreatePath(savePath), "http://"+link))
+                            $"Identified resource: {link}".ShowasStatus(100);
+                    }
+                    else if(Path.GetExtension(link).Trim() != string.Empty)
                     {
                         if (Resources.TryAdd(CreatePath(link), string.Concat(Url, "/", link)))
                             $"Identified resource: {link}".ShowasStatus(100);
@@ -118,7 +123,7 @@ namespace LeetCrawler
             new DirectoryInfo(OutputDirectory).Empty();
         }
         private string CreatePath(string link)
-        {
+        {          
             if (link == string.Empty) link = "index.html";
             if (Path.GetExtension(link) == string.Empty)
                 link += ".html";
@@ -130,10 +135,10 @@ namespace LeetCrawler
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
             }
-            return Path.Combine(OutputDirectory, link);
+            return Path.Combine(path, dirs[dirs.Length-1]);
         }
         private async Task<byte[]> DownloadResource(string url, string path)
-        {
+        {            
             HttpClient client = new HttpClient();
             var response = client.GetAsync(url).Result;
             byte[] resourceData = new byte[0];

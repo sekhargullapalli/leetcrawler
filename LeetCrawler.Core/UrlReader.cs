@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using System.Net;
+﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.IO;
-using System.Threading.Tasks;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace LeetCrawler.Core
 {
@@ -38,9 +34,16 @@ namespace LeetCrawler.Core
         private async Task<string> ReadURLContent(string url)
         {
             HttpClient client = new HttpClient();
-            byte[] urldata = await client.GetByteArrayAsync(url);
-            return Encoding.Default.GetString(urldata);
-        }
+            var response = client.GetAsync(url).Result;
+            string responseString = string.Empty;
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = response.Content;                
+                responseString = await responseContent.ReadAsStringAsync();             
+            }
+            if (responseString.Contains("<title>404")) responseString = string.Empty;
+            return responseString;
+        }       
         private string ProcessLink(string link)
         {
             //Remove attribute names

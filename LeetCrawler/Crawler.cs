@@ -28,6 +28,7 @@ namespace LeetCrawler
 
         public void Crawl()
         {
+            Console.Clear();
             ProjectExtensions.Banner.WriteLine(ConsoleColor.DarkCyan);
             "v20190512..\n\n".WriteLine(ConsoleColor.DarkCyan);
             "\nInitiating crawling.. (this could take a short while!!)".WriteLine(ConsoleColor.DarkCyan);

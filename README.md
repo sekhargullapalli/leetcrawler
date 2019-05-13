@@ -28,7 +28,7 @@ These tasks collect the content (text/html) of the route and logs them in a conc
 Once the routes and resources are identified, they are a handled using `Parallel.ForEach` on their respective concurrent dictionaries. Since the content of the routes are read in previous step, those items are simply saved as html files. The resources are read from their respective urls and saved with the apporpiate extensions (block blobs are saved as png files).  
 
 ## Some Challenges/ Learnings
-* Simultaneous downloading of resources while crawling resulted several IO exceptions, which I did not dig into. First logging the resources and then using `Parallel.ForEach` helped me shown status and without any exceptions
+* Simultaneous saving of resources while crawling resulted in a few IO exceptions, which I did not dig into. First logging the resources and then using `Parallel.ForEach` helped me shown status and without any exceptions
 * I have not benchmarked the application with a syncronous version, nor tried using standard dictionaries instead of concurrent ones. It seems that task parallelism might be advantageous for recursive operations such as this, provided the unit operations are heavy enough
 
 ## Me

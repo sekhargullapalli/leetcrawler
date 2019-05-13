@@ -29,7 +29,7 @@ namespace LeetCrawler
             Console.WriteLine(s);
             Console.ForegroundColor = original;
         }
-        //Extension to empty a directory
+        //Extension to empty a directory 
         internal static void Empty(this System.IO.DirectoryInfo directory)
         {
             foreach (System.IO.FileInfo file in directory.GetFiles()) file.Delete();

@@ -5,14 +5,24 @@ using System.Threading.Tasks;
 
 namespace LeetCrawler
 {
+    /// <summary>
+    /// Reads the content of the url and extracts the links
+    /// </summary>
     internal class UrlReader
     {
         internal UrlReader(string url) =>
             this.Url = url.Trim().TrimEnd(new char[] {'/'});
 
         internal string Url { get; set; } = "";
+        /// <summary>
+        /// html content of the route
+        /// </summary>
         internal string Content { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Link exctration from the url using regular expressions
+        /// </summary>
+        /// <returns></returns>
         internal async Task<HashSet<string>> ExtractLinks()
         {
             HashSet<string> Links = new HashSet<string>();
@@ -29,6 +39,9 @@ namespace LeetCrawler
             }
             return Links;
         }
+        
+
+        #region private memebers
 
         private async Task<string> ReadURLContent(string url)
         {
@@ -40,6 +53,7 @@ namespace LeetCrawler
                 var responseContent = response.Content;                
                 responseString = await responseContent.ReadAsStringAsync();             
             }
+            //Explicit handling of 404 since the status returned for not found route is 200 OK
             if (responseString.Contains("<title>404")) responseString = string.Empty;
             return responseString;
         }       
@@ -61,7 +75,7 @@ namespace LeetCrawler
                 || link.StartsWith(@"//cdn.")) ? string.Empty : link;
             //Remove dynamic links
             if (link.Contains("/{")) link = string.Empty;
-            //Remove window location from link
+            //Remove window bookmarks from link
             if (link.Contains("#"))
                 link = link.Substring(0, link.IndexOf("#"));
             //Remove caching parameters in css and js links
@@ -72,5 +86,7 @@ namespace LeetCrawler
             link = link.Replace("../", "").Trim();
             return link;
         }
+
+        #endregion #region private memebers
     }
 }

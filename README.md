@@ -25,7 +25,7 @@ Starting from the index route, the recursive function `CreateRouteCrawler(string
 
 These tasks collect the content (text/html) of the route and logs them in a concurrent dictionary for saving later. If the route is logged in the dictionary, it will not be crawled again. A similar approach is applied for other resources such as images, block blobs in Azure storage, style sheets and script files.
 
-Onece the routes and resources are identified, they are a handled using `Parallel.ForEach` on their respective concurrent dictionaries. Since the content of the routes are read in previous step, those items are simply saved as html files. The resources are read from their respective urls and saved with the apporpiate extensions (block blobs are saved as png files).  
+Once the routes and resources are identified, they are a handled using `Parallel.ForEach` on their respective concurrent dictionaries. Since the content of the routes are read in previous step, those items are simply saved as html files. The resources are read from their respective urls and saved with the apporpiate extensions (block blobs are saved as png files).  
 
 ## Some Challenges/ Learnings
 * Simultaneous downloading of resources while crawling resulted several IO exceptions, which I did not dig into. First logging the resources and then using `Parallel.ForEach` helped me shown status and without any exceptions
